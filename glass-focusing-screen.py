@@ -4,9 +4,17 @@ import cadquery as cq
 # PARAMETRIC PARAMETERS (All sizes in mm)
 # ==========================================
 # Mamiya Press M-Adapter reference dimensions
-outer_width = 114.0       # Complete horizontal width of the insert
-outer_height = 98.0       # Complete vertical height of the insert
-plate_thickness = 5.0     # Depth required to seat securely in the locking grooves
+outer_width = 111.0       # Complete horizontal width of the insert
+outer_height = 86.5       # Complete vertical height of the insert
+plate_thickness = 7.2     # Depth required to seat securely in the locking grooves
+
+# Light-Trap Groove Dimensions (on the camera-facing <Z face)
+groove_center_width = 98.0
+groove_center_height = 76.0
+groove_thickness_tb = 4.5     # Groove width on top and bottom sides
+groove_thickness_lr = 5.7     # Groove width on left and right sides
+groove_depth = 1.5
+groove_radius = 4.0
 
 # Glass Sheet Specifications
 glass_width = 60.0
@@ -58,6 +66,32 @@ body = (
     body.center(outer_width, 0)
     .rect(6.0, outer_height)
     .cutBlind(-1.5)
+)
+
+# ==========================================
+# PART 1.5: LIGHT-TRAP GROOVE
+# ==========================================
+# Concentric rounded rectangles sketch for the light-trap channel
+groove_outer_w = groove_center_width + groove_thickness_lr
+groove_outer_h = groove_center_height + groove_thickness_tb
+groove_inner_w = groove_center_width - groove_thickness_lr
+groove_inner_h = groove_center_height - groove_thickness_tb
+
+groove_sketch = (
+    cq.Sketch()
+    .rect(groove_outer_w, groove_outer_h)
+    .rect(groove_inner_w, groove_inner_h, mode="s")
+    .vertices()
+    .fillet(groove_radius)
+)
+
+body = (
+    cq.Workplane("XY")
+    .add(body.val())
+    .faces("<Z")
+    .workplane()
+    .placeSketch(groove_sketch)
+    .cutBlind(-groove_depth)
 )
 
 # ==========================================
