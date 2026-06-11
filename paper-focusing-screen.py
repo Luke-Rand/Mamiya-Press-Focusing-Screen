@@ -9,12 +9,13 @@ outer_height = 86.5       # Complete vertical height of the insert
 plate_thickness = 7.2     # Depth required to seat securely in the locking grooves
 
 # Light-Trap Groove Dimensions (on the camera-facing <Z face)
-groove_center_width = 98.0
-groove_center_height = 76.0
-groove_thickness_tb = 4.5     # Groove width on top and bottom sides
-groove_thickness_lr = 5.7     # Groove width on left and right sides
+# Replicating the camera's silver lip of 106.0mm x 76.7mm outer dimensions
+lip_outer_width = 106.0
+lip_outer_height = 76.7
+groove_clearance = 0.6        # Extra clearance around the lip
+groove_width = 3.5            # Width of the groove channel
 groove_depth = 1.5
-groove_radius = 4.0
+groove_radius = 4.0           # Corner radius of the groove
 
 # Paper / Drafting Film Specifications
 paper_width = 95.0
@@ -72,10 +73,10 @@ body = (
 # PART 1.5: LIGHT-TRAP GROOVE
 # ==========================================
 # Concentric rounded rectangles sketch for the light-trap channel
-groove_outer_w = groove_center_width + groove_thickness_lr
-groove_outer_h = groove_center_height + groove_thickness_tb
-groove_inner_w = groove_center_width - groove_thickness_lr
-groove_inner_h = groove_center_height - groove_thickness_tb
+groove_outer_w = lip_outer_width + (2 * groove_clearance)
+groove_outer_h = lip_outer_height + (2 * groove_clearance)
+groove_inner_w = groove_outer_w - (2 * groove_width)
+groove_inner_h = groove_outer_h - (2 * groove_width)
 
 groove_sketch = (
     cq.Sketch()

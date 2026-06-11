@@ -9,8 +9,8 @@ Built using **CadQuery**, this repository generates high-fidelity STL and STEP m
 ## Features
 
 - **Modular Design**: A single, unified adapter body profile compatible with multiple focusing media.
-- **Glass Ground Glass Support**: Optimized for a standard $60.0 \times 60.0 \times 2.0\text{ mm}$ glass pane (with a $1.5\text{ mm}$ retention ring).
-- **Drafting Film / Paper Support**: Optimized for a thin sheet of drafting film or translucent tracing paper sized $95.0 \times 72.0\text{ mm}$ (with a thicker $3.4\text{ mm}$ retention ring).
+- **Glass Ground Glass Support**: Optimized for a standard 60.0 mm x 60.0 mm x 2.0 mm glass pane (with a 1.5 mm retention ring).
+- **Drafting Film / Paper Support**: Optimized for a thin sheet of drafting film or translucent tracing paper sized 95.0 mm x 72.0 mm (with a thicker 3.4 mm retention ring).
 - **Exact Film Plane Alignment**: The pocket depth is meticulously set so the matte/focusing surface sits exactly at the camera's registration plane.
 - **Parametric Modification**: Modify any dimensions (pocket clearance, plate thickness, view windows) directly in the Python source code.
 - **CQ-Editor & CLI Compatible**: Use interactively inside the `CQ-Editor` GUI, or compile headlessly using the included `build.py` script.
@@ -60,14 +60,14 @@ For the best results, adhere to the following slicing parameters:
 ## Assembly & Focusing Medium Sizing
 
 ### 1. The Glass Focusing Screen
-- **Medium Dimensions**: $60.0 \times 60.0 \times 2.0\text{ mm}$ glass plate.
+- **Medium Dimensions**: 60.0 mm x 60.0 mm x 2.0 mm glass plate.
 - **Files**: Use `exports/glass/mamiya_screen_body.stl` and `exports/glass/glass_retention_ring.stl`.
 - **Grinding (DIY)**: Use 600-grit silicon carbide powder or aluminum oxide slurry on raw glass to grind a uniform frosted surface.
 - **Orientation**: Drop the glass into the main body pocket with the **frosted/matte side facing the lens** (i.e. resting directly against the pocket's bottom registration ledge).
 - **Retention**: Press-fit the thin retention ring on top of the glass.
 
 ### 2. The Paper Focusing Screen
-- **Medium Dimensions**: $95.0 \times 72.0\text{ mm}$ high-quality translucent drafting film, drafting paper, or vellum paper.
+- **Medium Dimensions**: 95.0 mm x 72.0 mm high-quality translucent drafting film, drafting paper, or vellum paper.
 - **Files**: Use `exports/paper/mamiya_screen_body.stl` and `exports/paper/paper_retention_ring.stl`.
 - **Orientation**: Place the paper flat against the bottom ledge of the pocket.
 - **Retention**: Press-fit the thicker retention ring down into the pocket. This clamps the paper flat and prevents sagging, maintaining focal plane alignment.
