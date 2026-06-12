@@ -7,11 +7,11 @@ import math
 # Mamiya Press M-Adapter reference dimensions
 outer_width = 111.0       # Complete horizontal width of the insert
 outer_height = 86.5       # Complete vertical height of the insert
-plate_thickness = 7.0     # Depth required to seat securely in the locking grooves
-
+plate_thickness = 6.5     # Depth required to seat securely in the locking grooves
+body_thickness = 13.7     # Overall thickness of the center body to make the pressure plate flush (7.7 reg + 2.0 glass + 4.0 frame)
 
 # Registration plane (distance from camera-facing <Z face to glass registration ledge)
-registration_distance = 0.5   # Constant camera film-plane registration depth
+registration_distance = 7.7   # Distance from camera-facing <Z face to film plane
 
 
 
@@ -37,17 +37,17 @@ screw_clearance_dia = 2.2     # M2 pass-through clearance hole
 screw_head_dia = 3.8          # M2 counter-sunk head diameter
 screw_head_depth = 1.6        # M2 counter-sunk depth
 nut_flat_to_flat = 4.3        # M2 hex nut flat-to-flat with tolerance
-nut_depth = 1.8               # M2 hex nut depth
+nut_depth = 3.5               # M2 hex nut depth (easy insertion + tolerance for M2x12 screws)
 
 # Viewing Window & Support Lip
 lip_width = 2.0           # Lip width around the edges to support the glass
-retention_thickness = 3.5
+retention_thickness = 4.0     # Increased to 4.0mm to support M2 x 12mm screws
 
 def generate_glass_focusing_screen(glass_width, glass_height):
     # Pocket dimensions (calculated dynamically to maintain registration_distance)
     glass_pocket_w = glass_width + glass_tolerance
     glass_pocket_h = glass_height + glass_tolerance
-    glass_pocket_depth = plate_thickness - registration_distance
+    glass_pocket_depth = body_thickness - registration_distance
 
     frame_pocket_w = glass_width + 10.0
     frame_pocket_h = glass_height + 10.0
@@ -72,7 +72,7 @@ def generate_glass_focusing_screen(glass_width, glass_height):
     # ==========================================
     body = (
         cq.Workplane("XY")
-        .box(outer_width, outer_height, plate_thickness)
+        .box(outer_width, outer_height, body_thickness)
         .edges("|Z")
         .chamfer(2.0)  # Eases slide-in mounting capability
     )
@@ -96,27 +96,27 @@ def generate_glass_focusing_screen(glass_width, glass_height):
         .cutBlind(-glass_pocket_depth)
     )
 
-    # Drill screw pilot holes
+    # Drill screw clearance holes
     body = (
         body.faces(">Z")
         .workplane()
         .pushPoints(screw_centers)
-        .circle(screw_hole_dia / 2)
+        .circle(screw_clearance_dia / 2)
         .cutThruAll()
     )
 
-    # Add standard Mamiya Press side registration lip steps for mounting alignment
+    # Add standard Mamiya Press top/bottom registration lip steps for mounting alignment
     body = (
         body.faces(">Z")
         .workplane()
-        .center(-outer_width / 2, 0)
-        .rect(6.0, outer_height)
-        .cutBlind(-1.5)
+        .center(0, -outer_height / 2)
+        .rect(outer_width, 6.0)
+        .cutBlind(-(body_thickness - plate_thickness))
     )
     body = (
-        body.center(outer_width, 0)
-        .rect(6.0, outer_height)
-        .cutBlind(-1.5)
+        body.center(0, outer_height)
+        .rect(outer_width, 6.0)
+        .cutBlind(-(body_thickness - plate_thickness))
     )
 
     # Cut the hex nut pockets on the camera-facing back face (<Z)
@@ -209,7 +209,7 @@ if "show_object" in locals() or "show_object" in globals():
         body, frame = generate_glass_focusing_screen(w, h)
         x_offset = (i - 1.5) * 130.0
         show_object(body.translate((x_offset, 0, 0)), name=f"body_{suffix}", options={"color": "black", "alpha": 0.9})
-        show_object(frame.translate((x_offset, 0, plate_thickness * 2)), name=f"frame_{suffix}", options={"color": "lightgrey"})
+        show_object(frame.translate((x_offset, 0, body_thickness * 2)), name=f"frame_{suffix}", options={"color": "lightgrey"})
 else:
     import os
     os.makedirs("exports/glass", exist_ok=True)

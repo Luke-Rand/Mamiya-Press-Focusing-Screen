@@ -6,11 +6,11 @@ import cadquery as cq
 # Mamiya Press M-Adapter reference dimensions
 outer_width = 111.0       # Complete horizontal width of the insert
 outer_height = 86.5       # Complete vertical height of the insert
-plate_thickness = 7.0     # Depth required to seat securely in the locking grooves
-
+plate_thickness = 6.5     # Depth required to seat securely in the locking grooves
+body_thickness = 10.0     # Overall thickness of the center body to hold the glass
 
 # Registration plane (distance from camera-facing <Z face to paper registration ledge)
-registration_distance = 0.5   # Constant camera film-plane registration depth
+registration_distance = 7.7   # Constant camera film-plane registration depth
 
 
 
@@ -34,7 +34,7 @@ def generate_paper_focusing_screen(paper_width, paper_height):
     # Pocket dimensions (calculated dynamically to maintain registration_distance)
     pocket_width = paper_width + paper_tolerance
     pocket_height = paper_height + paper_tolerance
-    pocket_depth = plate_thickness - registration_distance
+    pocket_depth = body_thickness - registration_distance
     retention_thickness = pocket_depth - paper_thickness
 
     view_width = paper_width - (lip_width * 2)
@@ -45,7 +45,7 @@ def generate_paper_focusing_screen(paper_width, paper_height):
     # ==========================================
     body = (
         cq.Workplane("XY")
-        .box(outer_width, outer_height, plate_thickness)
+        .box(outer_width, outer_height, body_thickness)
         .edges("|Z")
         .chamfer(2.0)  # Eases slide-in mounting capability
     )
@@ -61,18 +61,18 @@ def generate_paper_focusing_screen(paper_width, paper_height):
         .cutBlind(-pocket_depth)
     )
 
-    # Add standard Mamiya Press side registration lip steps for mounting alignment
+    # Add standard Mamiya Press top/bottom registration lip steps for mounting alignment
     body = (
         body.faces(">Z")
         .workplane()
-        .center(-outer_width / 2, 0)
-        .rect(6.0, outer_height)
-        .cutBlind(-1.5)
+        .center(0, -outer_height / 2)
+        .rect(outer_width, 6.0)
+        .cutBlind(-(body_thickness - plate_thickness))
     )
     body = (
-        body.center(outer_width, 0)
-        .rect(6.0, outer_height)
-        .cutBlind(-1.5)
+        body.center(0, outer_height)
+        .rect(outer_width, 6.0)
+        .cutBlind(-(body_thickness - plate_thickness))
     )
 
     # ==========================================
@@ -135,7 +135,7 @@ if "show_object" in locals() or "show_object" in globals():
         body, frame = generate_paper_focusing_screen(w, h)
         x_offset = (i - 1.5) * 130.0
         show_object(body.translate((x_offset, 0, 0)), name=f"body_{suffix}", options={"color": "black", "alpha": 0.9})
-        show_object(frame.translate((x_offset, 0, plate_thickness * 2)), name=f"frame_{suffix}", options={"color": "lightgrey"})
+        show_object(frame.translate((x_offset, 0, body_thickness * 2)), name=f"frame_{suffix}", options={"color": "lightgrey"})
 else:
     import os
     os.makedirs("exports/paper", exist_ok=True)
