@@ -6,7 +6,12 @@ import cadquery as cq
 # Mamiya Press M-Adapter reference dimensions
 outer_width = 111.0       # Complete horizontal width of the insert
 outer_height = 86.5       # Complete vertical height of the insert
-plate_thickness = 7.2     # Depth required to seat securely in the locking grooves
+plate_thickness = 6.0     # Depth required to seat securely in the locking grooves
+
+# Registration plane (distance from camera-facing <Z face to paper registration ledge)
+registration_distance = 0.5   # Constant camera film-plane registration depth
+
+
 
 # Light-Trap Groove Dimensions (on the camera-facing <Z face)
 # Replicating the camera's silver lip of 106.0mm x 76.7mm outer dimensions
@@ -28,10 +33,10 @@ lip_width = 4.5           # Increased to 4.5mm to maintain a thick, print-safe w
 view_width = paper_width - (lip_width * 2)
 view_height = paper_height - (lip_width * 2)
 
-# Pocket dimensions (Depth is kept at 3.5mm to match the glass version's registration plane)
+# Pocket dimensions (calculated dynamically to maintain registration_distance)
 pocket_width = paper_width + paper_tolerance
 pocket_height = paper_height + paper_tolerance
-pocket_depth = 3.5        # Keep registration plane identical to glass model (Z = -1.0)
+pocket_depth = plate_thickness - registration_distance
 retention_thickness = pocket_depth - paper_thickness
 
 # ==========================================
