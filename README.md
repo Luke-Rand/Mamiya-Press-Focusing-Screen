@@ -95,6 +95,15 @@ For the best results, adhere to the following slicing parameters:
 - **Orientation**: Place the paper flat against the bottom ledge of the pocket.
 - **Retention**: Press-fit the friction retention ring down into the pocket. This clamps the paper flat and prevents sagging, maintaining focal plane alignment.
 
+### 3. The Transport Case
+- **Design**: A two-part 3D-printable protective sleeve that universally fits any focusing screen adapter format (max outer size $111.0\text{ mm} \times 86.5\text{ mm} \times 13.7\text{ mm}$).
+- **Components**:
+  - **Case Body**: Protects the focusing medium and adapter. It has an integrated slide-on groove and a thumb notch on the back for quick extraction.
+  - **Case Lid**: Slides into the guide channels. It features an integrated pull-tab with a $7\text{ mm}$ lanyard/clip hole and a front tactile grip ridge.
+- **Assembly**:
+  1. Insert the adapter frame into the body.
+  2. Slide the lid in from the top edge. It runs completely flat and has no overhangs for easy support-free printing.
+
 ---
 
 ## Local Development Setup

@@ -18,7 +18,8 @@ RESET = "\033[0m"
 
 SCRIPTS = [
     "glass-focusing-screen.py",
-    "paper-focusing-screen.py"
+    "paper-focusing-screen.py",
+    "focusing-screen-case.py"
 ]
 
 def print_header():
